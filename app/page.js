@@ -2,7 +2,6 @@
 import Image from "next/image";
 import styles from "./page.module.css";
 import { useState } from "react";
-import { data } from "public/data.js";
 import moneycash from "public/money-cash.svg";
 import filefind from "public/file-find.svg";
 import filetext from "public/file-text.svg";
