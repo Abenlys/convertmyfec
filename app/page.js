@@ -22,11 +22,11 @@ export default function Home() {
     newClts: "",
   });
   // console.log(data);
-  console.log(previewData);
+  // console.log(previewData);
   if (previewData !== null) {
-    console.log(previewData[0]);
-    console.log(previewData.slice(1));
-    console.log(previewData[0][4]);
+    // console.log(previewData[0]);
+    // console.log(previewData.slice(1));
+    // console.log(previewData[0][4]);
   }
 
   const handleAuxChange = (e) => {
