@@ -58,13 +58,6 @@ export default function Home() {
         ".page_items__yzFf6 .page_input__lx_gt"
       );
       const modifiedData = previewData.map((element) => {
-        for (let i of [11, 12]) {
-          if (typeof element[i] === 'number') {
-            element[i] = parseFloat(element[i].toString().replace(',', '.'));
-          } else if (typeof element[i] === 'string' && element[i].includes(',')) {
-            element[i] = parseFloat(element[i].replace(',', '.'));
-          }
-        }
         if (element[4] && element[4].startsWith("401")) {
           const modifiedFrns =
             substitueSpace(inputData.newFrns, " ", "") +
