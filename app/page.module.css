@@ -173,11 +173,11 @@
 
 .center {
   height: 500px;
-  overflow-y: scroll;
-  width: 60vw;
+  overflow-y: auto;
+  max-width: 60vw;
   margin-bottom: 15px;
   @media all and (max-width: 768px) {
-    width: 85vw;
+    max-width: 85vw;
     font-size: 14px;
   }
 }
