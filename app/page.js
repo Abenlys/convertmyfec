@@ -22,11 +22,11 @@ export default function Home() {
     newClts: "",
   });
   // console.log(data);
-  // console.log(previewData);
+  console.log(previewData);
   if (previewData !== null) {
-    // console.log(previewData[0]);
-    // console.log(previewData.slice(1));
-    // console.log(previewData[0][4]);
+    console.log(previewData[0]);
+    console.log(previewData.slice(1));
+    console.log(previewData[0][4]);
   }
 
   const handleAuxChange = (e) => {
@@ -48,14 +48,23 @@ export default function Home() {
       });
       setDepositedFile({ name: "", filed: false, size: "" });
       setPreviewData(null);
-      setInputData({oldFrns: "", oldClts: "", newFrns: "", newClts: ""})
+      setInputData({ oldFrns: "", oldClts: "", newFrns: "", newClts: "" });
     }
   };
 
   const handleModify = () => {
     if (previewData !== null) {
-      const sectionInputs = document.querySelectorAll(".page_items__yzFf6 .page_input__lx_gt")
+      const sectionInputs = document.querySelectorAll(
+        ".page_items__yzFf6 .page_input__lx_gt"
+      );
       const modifiedData = previewData.map((element) => {
+        for (let i of [11, 12]) {
+          if (typeof element[i] === 'number') {
+            element[i] = parseFloat(element[i].toString().replace(',', '.'));
+          } else if (typeof element[i] === 'string' && element[i].includes(',')) {
+            element[i] = parseFloat(element[i].replace(',', '.'));
+          }
+        }
         if (element[4] && element[4].startsWith("401")) {
           const modifiedFrns =
             substitueSpace(inputData.newFrns, " ", "") +
@@ -71,9 +80,9 @@ export default function Home() {
       });
       setPreviewData(modifiedData);
       sectionInputs.forEach((input) => {
-        input.value = null
-      })
-      setInputData({oldFrns: "", oldClts: "", newFrns: "", newClts: ""})
+        input.value = null;
+      });
+      setInputData({ oldFrns: "", oldClts: "", newFrns: "", newClts: "" });
     }
   };
 
@@ -130,10 +139,10 @@ export default function Home() {
     }
   };
 
-  const generateModifiedFileContent = (separator) => {
+  const generateModifiedFileContent = () => {
     if (previewData) {
       const modifiedContent = previewData
-        .map((row) => row.join(separator))
+        .map((row) => row.join("|"))
         .join("\n");
       return modifiedContent;
     }
@@ -203,7 +212,8 @@ export default function Home() {
             Cette application vise à changer rapidement la racine des comptes
             auxiliaires des fournisseurs et clients dans un FEC. Au lieu de
             réaliser cette tâche via un tableur, ce qui peut prendre de 5 à 10
-            minutes, vous pouvez le faire en 30 secondes !! Pour cela, laissez-vous guider par les numéros.
+            minutes, vous pouvez le faire en 30 secondes !! Pour cela,
+            laissez-vous guider par les numéros.
           </p>
         </div>
         <div className={styles.containeraux}>
