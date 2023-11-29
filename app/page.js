@@ -48,11 +48,13 @@ export default function Home() {
       });
       setDepositedFile({ name: "", filed: false, size: "" });
       setPreviewData(null);
+      setInputData({oldFrns: "", oldClts: "", newFrns: "", newClts: ""})
     }
   };
 
   const handleModify = () => {
     if (previewData !== null) {
+      const sectionInputs = document.querySelectorAll(".page_items__yzFf6 .page_input__lx_gt")
       const modifiedData = previewData.map((element) => {
         if (element[4] && element[4].startsWith("401")) {
           const modifiedFrns =
@@ -68,6 +70,10 @@ export default function Home() {
         return element;
       });
       setPreviewData(modifiedData);
+      sectionInputs.forEach((input) => {
+        input.value = null
+      })
+      setInputData({oldFrns: "", oldClts: "", newFrns: "", newClts: ""})
     }
   };
 
