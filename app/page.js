@@ -97,7 +97,6 @@ export default function Home() {
         modifiedElement = applyModification(elemAux, inputData.oldClts, inputData.newClts, modifiedElement)
         return modifiedElement;
       });
-      console.log(modifiedData);
       setData(modifiedData);
       setValues(modifiedData);
       sectionInputs.forEach((input) => {
@@ -108,7 +107,6 @@ export default function Home() {
   };
   // function => ok
   const downloadModifiedFile = () => {
-    console.log(data);
     const newCSV = Papa.unparse(data);
     const blob = new Blob([newCSV], { type: "text/plain" });
     const link = document.createElement("a");
