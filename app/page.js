@@ -7,9 +7,12 @@ import filefind from "public/file-find.svg";
 import filetext from "public/file-text.svg";
 import cross from "public/cross-mark.svg";
 import Footer from "./components/Footer";
+import Papa from "papaparse";
 
 export default function Home() {
-  const [previewData, setPreviewData] = useState(null);
+  const [data, setData] = useState([]);
+  const [column, setColumn] = useState([]);
+  const [values, setValues] = useState([]);
   const [depositedFile, setDepositedFile] = useState({
     name: "",
     filed: false,
@@ -21,25 +24,43 @@ export default function Home() {
     newFrns: "",
     newClts: "",
   });
-  // console.log(data);
-  // console.log(previewData);
-  if (previewData !== null) {
-    // console.log(previewData[0]);
-    // console.log(previewData.slice(1));
-    // console.log(previewData[0][4]);
-  }
 
+  // function => ok
+  const handleFile = (event) => {
+    const file = event.target.files[0];
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: false,
+      complete: function (result) {
+        const columnArray = [];
+        const valuesArray = [];
+        result.data.map((data) => {
+          columnArray.push(Object.keys(data));
+          valuesArray.push(Object.values(data));
+        });
+        setData(result.data);
+        setColumn(columnArray[0]);
+        setValues(valuesArray);
+        setDepositedFile({
+          name: file.name,
+          filed: true,
+          size: Math.round(file.size / 1000) + " Ko",
+        });
+      },
+    });
+  };
+  // function => ok
   const handleAuxChange = (e) => {
     setInputData({
       ...inputData,
       [e.target.name]: e.target.value,
     });
   };
-
+  // function => ok
   function substitueSpace(str, oldChar, newChar) {
     return str.replace(new RegExp(oldChar, "g"), newChar);
   }
-
+  // function => ok
   const handleResetFile = () => {
     if (depositedFile.filed) {
       const fileInputs = document.querySelectorAll(".page_input__lx_gt");
@@ -47,116 +68,58 @@ export default function Home() {
         input.value = null;
       });
       setDepositedFile({ name: "", filed: false, size: "" });
-      setPreviewData(null);
+      setData([]);
       setInputData({ oldFrns: "", oldClts: "", newFrns: "", newClts: "" });
+      setColumn([])
+      setValues([])
     }
   };
-
+  // fonction => je sais pas
+  const applyModification = (elemAux, oldKey, newKey, modifiedElement) => {
+    if (elemAux && elemAux.startsWith(substitueSpace(oldKey, " ", ""))) {
+      const modifiedValue =
+        substitueSpace(newKey, " ", "") +
+        elemAux.slice(substitueSpace(oldKey, " ", "").length);
+      return { ...modifiedElement, CompAuxNum: modifiedValue };
+    }
+    return modifiedElement;
+  };
+  // fonction => je sais pas
   const handleModify = () => {
-    if (previewData !== null) {
+    if (data.length > 1) {
       const sectionInputs = document.querySelectorAll(
         ".page_items__yzFf6 .page_input__lx_gt"
       );
-      const modifiedData = previewData.map((element) => {
-        if (element[4] && element[4].startsWith("401")) {
-          const modifiedFrns =
-            substitueSpace(inputData.newFrns, " ", "") +
-            element[6].slice(substitueSpace(inputData.oldFrns, " ", "").length);
-          return [...element.slice(0, 6), modifiedFrns, ...element.slice(7)];
-        } else if (element[4] && element[4].startsWith("411")) {
-          const modifiedClts =
-            substitueSpace(inputData.newClts, " ", "") +
-            element[6].slice(substitueSpace(inputData.oldClts, " ", "").length);
-          return [...element.slice(0, 6), modifiedClts, ...element.slice(7)];
-        }
-        return element;
+      const modifiedData = data.map((element) => {
+        let elemAux = element.CompAuxNum;
+        let modifiedElement = { ...element };
+        modifiedElement = applyModification(elemAux, inputData.oldFrns, inputData.newFrns, modifiedElement)
+        modifiedElement = applyModification(elemAux, inputData.oldClts, inputData.newClts, modifiedElement)
+        return modifiedElement;
       });
-      setPreviewData(modifiedData);
+      console.log(modifiedData);
+      setData(modifiedData);
+      setValues(modifiedData);
       sectionInputs.forEach((input) => {
         input.value = null;
       });
       setInputData({ oldFrns: "", oldClts: "", newFrns: "", newClts: "" });
     }
   };
-
-  const handleFileChange = async (event) => {
-    const file = event.target.files[0];
-    if (depositedFile.name !== file.name) {
-      try {
-        const content = await readFilesContent(file);
-        const separator = detectSeparator(content);
-        const lines = content.split("\n");
-        // console.log(lines);
-        setDepositedFile({
-          name: file.name,
-          filed: true,
-          size: Math.round(file.size / 1000) + " Ko",
-        });
-        setPreviewData(
-          lines.map((line) => {
-            return line.split(separator);
-          })
-        );
-      } catch (error) {
-        console.error("Erreur lors de la lecture du fichier : ", error);
-      }
-    } else {
-      console.log("le meme fichier a été sélectionné.");
-    }
+  // function => ok
+  const downloadModifiedFile = () => {
+    console.log(data);
+    const newCSV = Papa.unparse(data);
+    const blob = new Blob([newCSV], { type: "text/plain" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download =
+      depositedFile.name.substring(0, depositedFile.name.indexOf(".")) +
+      "(copie).txt";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
-
-  const readFilesContent = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        resolve(event.target.result);
-      };
-      reader.onerror = (error) => {
-        reject(error);
-      };
-      reader.readAsText(file);
-    });
-  };
-
-  const detectSeparator = (content) => {
-    if (content.includes("\t")) {
-      return "\t";
-    } else if (content.includes(";")) {
-      return ";";
-    } else if (content.includes("|")) {
-      return "|";
-    } else if (content.includes(",")) {
-      return ",";
-    } else {
-      return ";";
-    }
-  };
-
-  const generateModifiedFileContent = () => {
-    if (previewData) {
-      const modifiedContent = previewData
-        .map((row) => row.join("|"))
-        .join("\n");
-      return modifiedContent;
-    }
-    return "";
-  };
-
-  const dowloadModifiedFile = () => {
-    const modifiedContent = generateModifiedFileContent();
-    if (modifiedContent) {
-      const blob = new Blob([modifiedContent], { type: "text/plain" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download =
-        depositedFile.name.substring(0, depositedFile.name.indexOf(".")) +
-        "(copie).txt";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  };
-
   return (
     <div className={styles.container}>
       <header>
@@ -184,7 +147,7 @@ export default function Home() {
               accept=".txt"
               aria-placeholder="déposer votre FEC ici"
               placeholder="Déposer votre FEC"
-              onChange={handleFileChange}
+              onChange={handleFile}
             ></input>
           </div>
           <div
@@ -259,11 +222,11 @@ export default function Home() {
             </button>
           </div>
           <div className={styles.center}>
-            {previewData && previewData.length > 0 ? (
+            {data && data.length > 0 ? (
               <table className={styles.table}>
                 <thead className={styles.head}>
                   <tr className={styles.headtr}>
-                    {...previewData[0].slice(4, 8).map((item, index) => (
+                    {column.slice(4, 8).map((item, index) => (
                       <th className={styles.headth} key={index}>
                         {item}
                       </th>
@@ -271,9 +234,9 @@ export default function Home() {
                   </tr>
                 </thead>
                 <tbody>
-                  {...previewData.slice(1).map((row, rowIndex) => (
+                  {values.map((row, rowIndex) => (
                     <tr key={rowIndex}>
-                      {row
+                      {Object.values(row)
                         .map((cell, cellIndex) => (
                           <td className={styles.td} key={cellIndex}>
                             {cell}
@@ -294,7 +257,7 @@ export default function Home() {
           <div className={styles.right}>
             <p className={styles.number}>5</p>
             <button
-              onClick={dowloadModifiedFile}
+              onClick={downloadModifiedFile}
               className={styles.rightbutton}
             >
               Télécharger <br /> le FEC modifié

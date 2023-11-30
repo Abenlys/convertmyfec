@@ -187,6 +187,10 @@
   font-size: 25px;
 }
 
+.table {
+  border-collapse: collapse;
+  border: 1px solid black;
+}
 
 .head {
   background-color: beige;
