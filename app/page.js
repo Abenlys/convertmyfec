@@ -30,7 +30,7 @@ export default function Home() {
     const file = event.target.files[0];
     Papa.parse(file, {
       header: true,
-      skipEmptyLines: false,
+      skipEmptyLines: true,
       complete: function (result) {
         const columnArray = [];
         const valuesArray = [];
@@ -107,7 +107,7 @@ export default function Home() {
   };
   // function => ok
   const downloadModifiedFile = () => {
-    const newCSV = Papa.unparse(data);
+    const newCSV = Papa.unparse(data, {delimiter: "|"});
     const blob = new Blob([newCSV], { type: "text/plain" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
