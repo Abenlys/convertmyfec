@@ -74,9 +74,9 @@ export default function Home() {
       setValues([])
     }
   };
-  // fonction => je sais pas
+  // function => ok
   const applyModification = (elemAux, oldKey, newKey, modifiedElement) => {
-    if (elemAux && elemAux.startsWith(substitueSpace(oldKey, " ", ""))) {
+    if (elemAux && oldKey != "" && newKey!= "" && elemAux.startsWith(substitueSpace(oldKey, " ", ""))) {
       const modifiedValue =
         substitueSpace(newKey, " ", "") +
         elemAux.slice(substitueSpace(oldKey, " ", "").length);
@@ -84,7 +84,7 @@ export default function Home() {
     }
     return modifiedElement;
   };
-  // fonction => je sais pas
+  // function => ok
   const handleModify = () => {
     if (data.length > 1) {
       const sectionInputs = document.querySelectorAll(
