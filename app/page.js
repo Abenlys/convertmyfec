@@ -107,7 +107,7 @@ export default function Home() {
   };
   // function => ok
   const downloadModifiedFile = () => {
-    const newCSV = Papa.unparse(data, {delimiter: "|"});
+    const newCSV = Papa.unparse(data, {delimiter: ";"});
     const blob = new Blob([newCSV], { type: "text/plain" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
@@ -179,14 +179,14 @@ export default function Home() {
             <input
               className={styles.input}
               type="text"
-              placeholder="Indiquer la racine des cptes aux frns"
+              placeholder="Saisir la racine auxiliaire frns actuelle"
               name="oldFrns"
               onChange={handleAuxChange}
             ></input>
             <input
               className={styles.input}
               type="text"
-              placeholder="Racine des cptes aux frns voulus"
+              placeholder="Saisir la racine auxiliaire frns voulus"
               name="newFrns"
               onChange={handleAuxChange}
             ></input>
@@ -199,14 +199,14 @@ export default function Home() {
             <input
               className={styles.input}
               type="text"
-              placeholder="Indiquer la racine des cptes aux clts"
+              placeholder="Saisir la racine auxiliaire clts actuelle"
               name="oldClts"
               onChange={handleAuxChange}
             ></input>
             <input
               className={styles.input}
               type="text"
-              placeholder="Racine des cptes aux clts voulus"
+              placeholder="Saisir la racine auxiliaire clts voulus"
               name="newClts"
               onChange={handleAuxChange}
             ></input>
