@@ -46,6 +46,14 @@ export default function RootLayout({ children }) {
     <html lang="fr">
       <Head>
         <link rel="icon" href={favicon} />
+        <meta name="description" content={metadata.description} />
+        <meta name="keywords" content={metadata.keywords.join(", ")} />
+        <meta name="author" content={metadata.authors[0].name} />
+        <meta property="og:title" content={metadata.title} />
+        <meta property="og:description" content={metadata.description} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://convertmyfec.com" />
+        <meta property="og:image" content="https://convertmyfec.com/og-image.jpg" />
       </Head>
       <body className={inter.className}>
         {children}

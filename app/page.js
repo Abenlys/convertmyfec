@@ -123,7 +123,7 @@ export default function Home() {
       <header>
         <div className={styles.stickywrapper}>
           <div className={styles.navbar}>
-            <Image width={30} height={30} src={moneycash} alt="logo" />
+            <Image width={30} height={30} src={moneycash} alt="ConvertMyFec logo" />
             <p>ConvertMyFec</p>
           </div>
         </div>
@@ -135,7 +135,7 @@ export default function Home() {
             <p className={styles.number}>1</p>
             <label className={styles.label} htmlFor="file-upload">
               Déposer votre FEC ici
-              <Image width={30} height={30} src={filefind} alt="file" />
+              <Image width={30} height={30} src={filefind} alt="Déposer fichier" />
             </label>
             <input
               className={styles.input}
@@ -154,12 +154,12 @@ export default function Home() {
             }
           >
             <div className={styles.filetext}>
-              <Image fill src={filetext} alt="filetext" />
+              <Image fill src={filetext} alt="fichier texte" />
             </div>
             <p>{depositedFile.name}</p>
             <p>{depositedFile.size}</p>
             <div className={styles.imgcross}>
-              <Image fill src={cross} alt="cross" onClick={handleResetFile} />
+              <Image fill src={cross} alt="Supprimer fichier" onClick={handleResetFile} />
             </div>
           </div>
           <p className={styles.explication}>
