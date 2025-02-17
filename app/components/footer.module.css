@@ -6,6 +6,9 @@
     display: flex;
     gap: 50px;
     padding: 1rem;
+    @media all and (max-width: 768px) {
+        flex-direction: column;
+      }
    
 }
 
