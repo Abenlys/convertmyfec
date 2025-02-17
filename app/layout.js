@@ -14,9 +14,13 @@ export const metadata = {
   keywords: [
     "FEC",
     "convertisseur",
+    "convertir FEC",
     "modifier",
+    "modifier FEC",
+    "comptes auxiliaires FEC",
     "comptes auxiliaires",
     "racines comptables",
+    "racines auxiliaires FEC",
   ],
   authors: [
     { name: "Thomas Ramillon", url: "https://portfolio-tomram.vercel.app" },
