@@ -14,6 +14,7 @@ export const metadata = {
   keywords: [
     "FEC",
     "convertisseur",
+    "modifier",
     "comptes auxiliaires",
     "racines comptables",
   ],
