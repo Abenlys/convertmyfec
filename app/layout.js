@@ -7,8 +7,8 @@ import { Analytics } from "@vercel/analytics/react";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "convertmyfec",
-  description: "convertmyfec permet de modifier les racines des comptes auxiliaires du FEC",
+  title: "convertmyfec - Modifier les racines des comptes auxiliaires du FEC facilement",
+  description: "convertmyfec est un outil simple et rapide pour modifier les racines des comptes auxiliaires dans un FEC",
   generator: "Next.js",
   applicationName: "convertmyfec",
   keywords: [
@@ -21,6 +21,7 @@ export const metadata = {
     "comptes auxiliaires",
     "racines comptables",
     "racines auxiliaires FEC",
+    "racines comptables auxiliaires",
   ],
   authors: [
     { name: "Thomas Ramillon", url: "https://portfolio-tomram.vercel.app" },
