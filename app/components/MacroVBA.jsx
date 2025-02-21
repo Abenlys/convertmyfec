@@ -10,7 +10,7 @@ import donneesVentileesParColonnes from "../../public/donnéesVentiléesParColon
 import clicDroitAfficherCode from "../../public/clicDroitAfficherCode.png"
 import avtModif from "../../public/avtModif.png"
 import nbreDeCaractereARetirer from "../../public/nbreDeCaractereARetirer.png"
-import lesCaracteresQueJeVeux from "../../public/lesCaracteresQueJeVeux.png"
+import caracteresVoulus from "../../public/caracteresVoulus.png"
 import leResultat from "../../public/leResultat.png"
 import executionMacro from "../../public/executionMacro.png"
 
@@ -176,7 +176,7 @@ End Sub`
         </li>
         <li>
             <Image
-            src={lesCaracteresQueJeVeux}
+            src={caracteresVoulus}
             width={300}
             alt='deuxième inputBox'
             />
