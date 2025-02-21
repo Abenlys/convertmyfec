@@ -1,0 +1,43 @@
+.containerMacro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.MacroPre {
+    border: 2px solid purple;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: rgba(128, 0, 128, 0.15) 1.95px 1.95px 2.6px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.containerMacro li {
+    text-align: center;
+
+}
+
+.containerMacro ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    list-style: none;
+    padding: 15px;
+}
+
+.marginBotMacro {
+    margin-bottom: 15px;
+    text-align: center;
+    padding: 10px;
+}
+
+.pasAPas {
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+

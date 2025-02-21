@@ -22,6 +22,7 @@ export const metadata = {
     "racines comptables",
     "racines auxiliaires FEC",
     "racines comptables auxiliaires",
+    "macro VBA",
   ],
   authors: [
     { name: "Thomas Ramillon", url: "https://portfolio-tomram.vercel.app" },

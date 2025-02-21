@@ -8,6 +8,7 @@ import filetext from "public/file-text.svg";
 import cross from "public/cross-mark.svg";
 import Footer from "./components/Footer";
 import Papa from "papaparse";
+import MacroVBA from "./components/MacroVBA";
 
 export default function Home() {
   const [data, setData] = useState([]);
@@ -263,6 +264,7 @@ export default function Home() {
           </div>
         </div>
       </main>
+      <MacroVBA />
       <Footer />
     </div>
   );
