@@ -17,10 +17,13 @@ import CodeBlock from "./CodeBlock";
 
 export default function MacroVBA() {
   const codeVBA = `
+Option Explicit
+
 Sub modifierComptesAux()
     Dim ws As Worksheet
     Dim lastRow As Long, i As Long
-    Dim x As Integer, y As String
+    Dim xFournisseur As Integer, yFournisseur As String
+    Dim xClient As Integer, yClient As String
     Dim racineFournisseur As String, racineClient As String
 
     'Def feuille Active
@@ -40,26 +43,17 @@ Sub modifierComptesAux()
     End If
     
     'Calcul du nombre de caractère a retirer
-    x = Len(racineFournisseur)
+    xFournisseur = Len(racineFournisseur)
     
     'demander la nouvelle racine à l'utilisateur
-    y = InputBox("[FOURNISSEURS] Entrez la nouvelle racine des comptes auxiliaires fournisseurs :", "Nouvelle racine du compte")
-    y = Trim(y)
+    yFournisseur = InputBox("[FOURNISSEURS] Entrez la nouvelle racine des comptes auxiliaires fournisseurs :", "Nouvelle racine du compte")
+    yFournisseur = Trim(yFournisseur)
     
     'Vérification de l'entrée utilisateur
-    If y = "" Then
+    If yFournisseur = "" Then
         MsgBox "Veuillez entrer une nouvelle racine valide pour les fournisseurs.", vbExclamation
         Exit Sub
     End If
-    
-    'On boucle sur les fournisseurs
-    For i = 2 To lastRow
-         If ws.Cells(i, "E").Value Like "401*" Then
-            If Len(ws.Cells(i, "G").Value) >= x Then
-                ws.Cells(i, "G").Value = y & Mid(ws.Cells(i, "G").Value, x + 1, Len(ws.Cells(i, "G").Value) - x)
-            End If
-        End If
-    Next i
     
     'Etape 2 : Modifications pour les clients
     racineClient = InputBox("[CLIENTS] Entrez la racine des comptes auxiliaires fournisseurs (ex: 411) :", "Racine du compte client")
@@ -72,28 +66,39 @@ Sub modifierComptesAux()
     End If
     
     'Calcul du nombre de caractères à retirer
-    x = Len(racineClient)
+    xClient = Len(racineClient)
     
     'Demander les caractères à ajouter au début
-    y = InputBox("[CLIENTS] Entrez la nouvelle racine des comptes auxiliaires fournisseurs :", "Nouvelle racine du compte")
-    y = Trim(y)
+    yClient = InputBox("[CLIENTS] Entrez la nouvelle racine des comptes auxiliaires fournisseurs :", "Nouvelle racine du compte")
+    yClient = Trim(yClient)
     
     'Vérification de l'entrée utilisateur
-    If y = "" Then
+    If yClient = "" Then
         MsgBox "Veuillez entrer une nouvelle racine valide pour les clients.", vbExclamation
         Exit Sub
     End If
     
-    'On boucle sur les clients
+    'Etape 3 :les boucles
+    
+    'On boucle sur les fournisseurs
     For i = 2 To lastRow
-         If ws.Cells(i, "E").Value Like "411*" Then
-            If Len(ws.Cells(i, "G").Value) >= x Then
-                ws.Cells(i, "G").Value = y & Mid(ws.Cells(i, "G").Value, x + 1, Len(ws.Cells(i, "G").Value) - x)
+         If ws.Cells(i, "E").Value Like "401*" Then
+            If Len(ws.Cells(i, "G").Value) >= xFournisseur Then
+                ws.Cells(i, "G").Value = yFournisseur & Mid(ws.Cells(i, "G").Value, xFournisseur + 1, Len(ws.Cells(i, "G").Value) - xFournisseur)
             End If
         End If
     Next i
     
-    MsgBox "Modifications terminées pour les comptes " & racineFournisseur & " et " & racineClient & " !", vbInformation
+    'On boucle sur les clients
+    For i = 2 To lastRow
+         If ws.Cells(i, "E").Value Like "411*" Then
+            If Len(ws.Cells(i, "G").Value) >= xClient Then
+                ws.Cells(i, "G").Value = yClient & Mid(ws.Cells(i, "G").Value, xClient + 1, Len(ws.Cells(i, "G").Value) - xClient)
+            End If
+        End If
+    Next i
+    
+    MsgBox "Modifications terminées pour les racines auxiliaires fournisseurs et clients", vbInformation
     
 End Sub
 `;
